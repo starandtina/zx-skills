@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>zx-card Comic</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: #fff;
+      color: #1a1a1a;
+      padding: 40px;
+      min-height: 100vh;
+    }
+
+    .comic {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 30px;
+      padding-bottom: 15px;
+      border-bottom: 3px solid #1a1a1a;
+    }
+
+    .panel-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .panel {
+      border: 3px solid #1a1a1a;
+      background: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .panel-wide {
+      grid-column: span 2;
+    }
+
+    .panel-content {
+      padding: 24px;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .panel-title {
+      font-weight: 700;
+      font-size: 18px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .speed-lines {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100px;
+      height: 100px;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 5px,
+        #1a1a1a 5px,
+        #1a1a1a 7px
+      );
+      opacity: 0.1;
+    }
+
+    .screentone {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: radial-gradient(circle, #1a1a1a 1px, transparent 1px);
+      background-size: 4px 4px;
+      opacity: 0.05;
+      pointer-events: none;
+    }
+
+    .footer {
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 2px solid #1a1a1a;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: rgba(0,0,0,0.5);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-logo {
+      width: 18px;
+      height: 18px;
+      background: #1a1a1a;
+    }
+
+    /* Halftone effect for emphasis */
+    .halftone {
+      background: radial-gradient(circle at center, #1a1a1a 2px, transparent 2px);
+      background-size: 6px 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="comic">
+    <h1 class="title">{{TITLE}}</h1>
+    <div class="panel-grid">
+      {{PANELS}}
+    </div>
+    <div class="footer">
+      <div class="brand">
+        <div class="brand-logo"></div>
+        <span>zx</span>
+      </div>
+      {{SOURCE_LINE}}
+    </div>
+  </div>
+</body>
+</html>

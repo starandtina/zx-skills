@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>zx-card Infograph</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: #1a1a1a;
+      color: #e8e8e8;
+      padding: 50px;
+      min-height: 100vh;
+    }
+
+    .infograph {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .title {
+      font-size: 36px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 40px;
+      text-align: left;
+    }
+
+    .visual-content {
+      /* Dynamic content goes here */
+    }
+
+    .footer {
+      margin-top: 50px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-logo {
+      width: 20px;
+      height: 20px;
+      background: linear-gradient(135deg, #4ecdc4, #f5a623);
+      border-radius: 4px;
+    }
+
+    /* Common visual elements */
+    .box {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 20px;
+      margin: 16px 0;
+    }
+
+    .highlight {
+      color: #f5a623;
+      font-weight: 600;
+    }
+
+    .accent-cyan { color: #4ecdc4; }
+    .accent-coral { color: #ff6b6b; }
+    .accent-amber { color: #f5a623; }
+
+    /* Light theme */
+    body.light {
+      background: #f8f6f3;
+      color: #2d2d2d;
+    }
+
+    body.light .title {
+      color: #1a1a1a;
+    }
+
+    body.light .box {
+      background: rgba(0,0,0,0.03);
+      border-color: rgba(0,0,0,0.1);
+    }
+
+    body.light .footer {
+      border-top-color: rgba(0,0,0,0.08);
+      color: rgba(0,0,0,0.4);
+    }
+  </style>
+</head>
+<body>
+  <div class="infograph">
+    <h1 class="title">{{TITLE}}</h1>
+    <div class="visual-content">
+      {{CONTENT}}
+    </div>
+    <div class="footer">
+      <div class="brand">
+        <div class="brand-logo"></div>
+        <span>zx</span>
+      </div>
+      {{SOURCE_LINE}}
+    </div>
+  </div>
+</body>
+</html>

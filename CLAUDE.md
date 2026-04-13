@@ -4,19 +4,20 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-This is a personal Claude Code skills repository. Each skill is a self-contained directory that can be installed to `~/.claude/skills/` to extend Claude Code's capabilities.
+This is a personal Claude Code skills repository. Each skill is a self-contained directory that can be installed to
+`~/.claude/skills/` to extend Claude Code's capabilities.
 
 ## Repository Structure
 
 ```
-ljg-skills/
-├── ljg-*/              # Each skill is a directory with "ljg-" prefix
+zx-skills/
+├── zx-*/              # Each skill is a directory with "zx-" prefix
 │   ├── SKILL.md        # Skill definition with YAML frontmatter
 │   ├── references/     # Reference docs for complex skills
 │   ├── assets/         # Templates, images, scripts
 │   └── scripts/        # Helper scripts (bash, node)
 ├── README.md
-└── .gitignore          # Ignores everything except ljg-*/ and specific files
+└── .gitignore          # Ignores everything except zx-*/ and specific files
 ```
 
 ## Skill Format
@@ -26,40 +27,39 @@ Each `SKILL.md` follows this structure:
 ```yaml
 ---
 name: skill-name
-description: "What this skill does. Use when user says..."
+description: 'What this skill does. Use when user says...'
 user_invocable: true|false
-version: "x.x.x"
+version: 'x.x.x'
 ---
-
 # Skill content in markdown...
 ```
 
 ## Skill Inventory
 
-| Skill | Purpose | External Dependencies |
-|-------|---------|----------------------|
-| `ljg-card` | Content → PNG visuals (long cards, infographs, posters) | Node.js + Playwright |
-| `ljg-paper` | Academic paper analysis pipeline | None |
-| `ljg-paper-flow` | Paper workflow (paper + card combined) | None |
-| `ljg-plain` | Plain language rewriter | None |
-| `ljg-skill-map` | Visual overview of installed skills | Bash |
-| `ljg-word` | English word deep-dive | None |
-| `ljg-writes` | Writing engine for thinking through ideas | None |
+| Skill           | Purpose                                                 | External Dependencies |
+| --------------- | ------------------------------------------------------- | --------------------- |
+| `zx-card`       | Content → PNG visuals (long cards, infographs, posters) | Node.js + Playwright  |
+| `zx-paper`      | Academic paper analysis pipeline                        | None                  |
+| `zx-paper-flow` | Paper workflow (paper + card combined)                  | None                  |
+| `zx-plain`      | Plain language rewriter                                 | None                  |
+| `zx-skill-map`  | Visual overview of installed skills                     | Bash                  |
+| `zx-word`       | English word deep-dive                                  | None                  |
+| `zx-writes`     | Writing engine for thinking through ideas               | None                  |
 
 ## Commands
 
-### Install ljg-card Dependencies
+### Install zx-card Dependencies
 
-`ljg-card` requires Playwright for screenshot capture:
+`zx-card` requires Playwright for screenshot capture:
 
 ```bash
-cd ljg-card && npm install && npx playwright install chromium
+cd zx-card && npm install && npx playwright install chromium
 ```
 
-### Test ljg-skill-map Scanner
+### Test zx-skill-map Scanner
 
 ```bash
-bash ljg-skill-map/scripts/scan.sh
+bash zx-skill-map/scripts/scan.sh
 ```
 
 ### Install Skills (for users)
@@ -67,7 +67,7 @@ bash ljg-skill-map/scripts/scan.sh
 ```bash
 # Copy all skills to Claude Code
 mkdir -p ~/.claude/skills
-cp -r ljg-* ~/.claude/skills/
+cp -r zx-* ~/.claude/skills/
 ```
 
 ## Architecture Notes
@@ -81,11 +81,12 @@ cp -r ljg-* ~/.claude/skills/
 ### Content Processing Pipeline
 
 Several skills share a common pattern for content ingestion:
+
 - **URL** → WebFetch
 - **File path** → Read tool
 - **Raw text** → Direct use
 
-### ljg-card Architecture
+### zx-card Architecture
 
 The most complex skill with multiple rendering modes:
 
@@ -96,13 +97,15 @@ The most complex skill with multiple rendering modes:
 
 ### Shared Conventions
 
-**Org-mode output** (ljg-paper, ljg-plain, ljg-writes):
+**Org-mode output** (zx-paper, zx-plain, zx-writes):
+
 - Bold: `*text*` (single asterisk, not `**`)
 - Filenames: `{timestamp}--{title}__{type}.org`
 - Output directory: `~/Documents/notes/`
 - Timestamps: `date +%Y%m%dT%H%M%S`
 
 **ASCII Art**:
+
 - Allowed: `+ - | / \ > < v ^ * = ~ . : # [ ] ( ) _ , ; ! ' "`
 - Forbidden: Unicode box-drawing characters
 
@@ -116,6 +119,7 @@ The most complex skill with multiple rendering modes:
 ## Testing Changes
 
 After modifying a skill:
+
 1. Copy to `~/.claude/skills/`
 2. Restart Claude Code to reload skills
 3. Test via natural language trigger or `/skill-name`

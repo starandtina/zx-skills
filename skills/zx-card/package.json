@@ -1,0 +1,21 @@
+{
+  "name": "zx-card",
+  "version": "1.7.0",
+  "description": "Content caster - transforms content into PNG visuals",
+  "main": "assets/capture.js",
+  "scripts": {
+    "capture": "node assets/capture.js"
+  },
+  "dependencies": {
+    "playwright": "^1.40.0"
+  },
+  "keywords": [
+    "claude-code",
+    "skill",
+    "visualization",
+    "png",
+    "card"
+  ],
+  "author": "zx",
+  "license": "MIT"
+}

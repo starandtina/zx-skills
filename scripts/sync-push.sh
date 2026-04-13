@@ -1,24 +1,41 @@
 #!/bin/bash
-# Usage: sync-push.sh <skill-name> <commit-message>
-# Syncs a local ljg-* skill to the repo and pushes.
 
-set -euo pipefail
+# Sync local skills back to repo (for development)
 
-SKILL="$1"
-MSG="$2"
-REPO="$HOME/.claude/ljg-skills-repo"
-LOCAL="$HOME/.claude/skills/$SKILL"
-TARGET="$REPO/skills/$SKILL"
+set -e
 
-if [ ! -d "$LOCAL" ]; then
-  echo "ERROR: $LOCAL does not exist" >&2
-  exit 1
-fi
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(dirname "$SCRIPT_DIR")"
+SKILLS_DIR="${HOME}/.claude/skills"
 
-cd "$REPO"
-git pull --rebase --quiet
-rsync -av --delete --exclude='.git' "$LOCAL/" "$TARGET/"
-git add "skills/$SKILL"
-git diff --cached --quiet && { echo "No changes to push."; exit 0; }
-git commit -m "$MSG"
-git push
+echo "Syncing skills from ~/.claude/skills to repo..."
+echo "Source: $SKILLS_DIR"
+echo "Target: $REPO_ROOT/skills"
+
+# Copy all zx-* directories from installed skills back to repo
+for skill_dir in "$SKILLS_DIR"/zx-*/; do
+    if [ -d "$skill_dir" ]; then
+        skill_name=$(basename "$skill_dir")
+        target_dir="$REPO_ROOT/skills/$skill_name"
+
+        echo "Syncing $skill_name..."
+
+        # Remove existing if present
+        if [ -d "$target_dir" ]; then
+            rm -rf "$target_dir"
+        fi
+
+        # Copy skill directory
+        cp -r "$skill_dir" "$target_dir"
+
+        # Remove node_modules and other generated files from repo
+        rm -rf "$target_dir/node_modules"
+        rm -f "$target_dir/package-lock.json"
+    fi
+done
+
+echo ""
+echo "✓ Sync complete!"
+echo ""
+echo "Synced skills:"
+ls -1 "$REPO_ROOT/skills" | grep "^zx-" | sed 's/^/  - /'
