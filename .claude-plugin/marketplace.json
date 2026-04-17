@@ -1,33 +1,21 @@
 {
-  "name": "ljg-skills",
-  "displayName": "LJG Skills Collection",
+  "name": "zx-skills",
+  "displayName": "ZX Skills Collection",
   "description": "Personal Claude Code skills collection for paper reading, content casting, and writing workflows",
-  "version": "1.0.0",
+  "version": "1.17.5",
   "owner": {
     "name": "lijigang",
     "url": "https://github.com/lijigang"
   },
-  "repository": "https://github.com/lijigang/ljg-skills",
+  "repository": "https://github.com/starandtina/zx-skills",
   "license": "MIT",
-  "keywords": [
-    "skills",
-    "paper-reading",
-    "academic",
-    "content-casting",
-    "visualization",
-    "writing",
-    "productivity"
-  ],
-  "categories": [
-    "Productivity",
-    "Research",
-    "Content Creation"
-  ],
+  "keywords": ["skills", "paper-reading", "academic", "content-casting", "visualization", "writing", "productivity"],
+  "categories": ["Productivity", "Research", "Content Creation"],
   "plugins": [
     {
-      "name": "ljg-skills",
-      "description": "LJG's personal Claude Code skills collection",
-      "version": "1.0.0",
+      "name": "zx-skills",
+      "description": "ZX's personal Claude Code skills collection",
+      "version": "1.17.5",
       "source": "./"
     }
   ]
