@@ -64,7 +64,10 @@ git clone -b md https://github.com/starandtina/zx-skills.git ~/.claude/plugins/z
 | **zx-paper**        | 论文阅读 — 为非学术人士提取论文核心想法，重理解不重批判                                                      |
 | **zx-paper-river**  | 论文溯源 — 倒读法，递归挖前序论文（最多5层）+ 最新进展，从源头讲述问题演化史                                 |
 | **zx-plain**        | 白话引擎 — 把任何内容改写到聪明的十二岁小孩也能懂                                                            |
+| **zx-present**      | 演讲铸造器 — 将 org/markdown outline 原样渲染成 slogan-style HTML slides                                     |
+| **zx-qa**           | 信息提问机 — 把文章/论文/书的核心观点抽成有方向的 Q-A 推理链                                                 |
 | **zx-rank**         | 降秩引擎 — 给一个领域，找出背后不可再少的独立生成器                                                          |
+| **zx-read**         | 伴读 — 陪读文本，提供翻译、结构标注、深度提问和跨领域旁逸                                                    |
 | **zx-think**        | 追本之箭 — 给一个观点或现象，纵向深钻到不可再分的本质                                                        |
 | **zx-word**         | 单词精通 — 深度拆解一个英语单词的核心语义和顿悟时刻                                                          |
 | **zx-writes**       | 写作引擎 — 带着一个观点出发，在写的过程中把它想透                                                            |

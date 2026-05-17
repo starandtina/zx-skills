@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{TITLE}}</title>
+<style>
+  :root {
+    --c-black: #1A1A1A;
+    --c-red: #E63956;
+    --c-yellow: #FFD400;
+    --c-white: #FFFFFF;
+    --c-gold: #FFE082;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: "Helvetica Neue", "Arial Black", "PingFang SC", "Heiti SC", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 900;
+    letter-spacing: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+  body[data-theme="black"] {
+    --bg: var(--c-black);
+    --fg: var(--c-white);
+    --acc-bg: var(--c-red);
+    --acc-fg: var(--c-white);
+    --hl: var(--c-red);
+  }
+  body[data-theme="red"] {
+    --bg: var(--c-red);
+    --fg: var(--c-white);
+    --acc-bg: var(--c-black);
+    --acc-fg: var(--c-white);
+    --hl: var(--c-gold);
+  }
+  body[data-theme="yellow"] {
+    --bg: var(--c-yellow);
+    --fg: var(--c-black);
+    --acc-bg: var(--c-black);
+    --acc-fg: var(--c-white);
+    --hl: var(--c-red);
+  }
+  body[data-theme="cyber"] {
+    --bg: #020805;
+    --fg: #5CFF8D;
+    --acc-bg: #5CFF8D;
+    --acc-fg: #020805;
+    --hl: var(--c-white);
+    font-family: "JetBrains Mono", "Fira Code", "Menlo", monospace;
+  }
+  body { background: var(--bg); color: var(--fg); }
+  .stage { position: fixed; inset: 0; }
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 6vmin 7vmin;
+    background: var(--bg);
+    color: var(--fg);
+  }
+  .slide.active { display: flex; }
+  .slide[data-emphasis="true"] {
+    background: var(--acc-bg);
+    color: var(--acc-fg);
+  }
+  .lines {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.15em;
+    line-height: 1.05;
+    max-width: 100%;
+  }
+  .line { white-space: nowrap; text-align: left; }
+  .line[data-indent="0"] { padding-left: 0; }
+  .line[data-indent="1"] { padding-left: 7vmin; }
+  .line[data-indent="2"] { padding-left: 16vmin; }
+  .hl { color: var(--hl); }
+  .slide[data-emphasis="true"] .hl { color: inherit; }
+  .slide[data-len="single"] .lines { font-size: clamp(220px, 70vmin, 900px); }
+  .slide[data-len="short"] .lines { font-size: clamp(160px, 48vmin, 680px); }
+  .slide[data-len="medium"] .lines { font-size: clamp(100px, 28vmin, 420px); }
+  .slide[data-len="long"] .lines { font-size: clamp(72px, 16vmin, 260px); }
+  .slide[data-len="xlong"] .lines { font-size: clamp(48px, 10vmin, 160px); }
+  .pre {
+    max-width: 86vw;
+    font-family: "Menlo", "Monaco", monospace;
+    font-size: clamp(18px, 3vmin, 42px);
+    line-height: 1.25;
+    white-space: pre;
+  }
+  .pager, .subtitle {
+    position: fixed;
+    bottom: 2.5vmin;
+    z-index: 10;
+    font-family: "Menlo", "Monaco", monospace;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    opacity: 0.5;
+    user-select: none;
+    color: currentColor;
+  }
+  .pager { left: 3vmin; }
+  .subtitle { right: 3vmin; }
+  .first-guide {
+    position: fixed;
+    top: 3vmin;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    font-family: "Menlo", "Monaco", monospace;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    opacity: 0.4;
+    user-select: none;
+    transition: opacity 0.4s ease;
+  }
+  .first-guide.hide { opacity: 0; pointer-events: none; }
+  :fullscreen .pager,
+  :fullscreen .subtitle,
+  :fullscreen .first-guide { display: none; }
+</style>
+</head>
+<body data-theme="{{THEME}}">
+<div class="stage" id="stage"></div>
+<div class="first-guide" id="firstGuide">RIGHT SPACE NEXT · F FULLSCREEN</div>
+<div class="pager" id="pager">01 / 01</div>
+<div class="subtitle" id="subtitle">{{SUBTITLE}}</div>
+<script>
+  const SLIDES = {{SLIDES_JSON}};
+  const stage = document.getElementById("stage");
+  const pager = document.getElementById("pager");
+  const firstGuide = document.getElementById("firstGuide");
+  let idx = 0;
+
+  function escapeHtml(value) {
+    return String(value == null ? "" : value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function visualLength(text) {
+    let len = 0;
+    for (const ch of String(text || "")) {
+      len += /[\u3000-\u303f\u3400-\u4dbf\u4e00-\u9fff\uff00-\uffef]/.test(ch) ? 1.8 : 1;
+    }
+    return len;
+  }
+
+  function tier(lines) {
+    const max = Math.max(0, ...lines.map(line => {
+      const chunks = line.chunks || [{ t: line.t || "" }];
+      return chunks.reduce((sum, chunk) => sum + visualLength(chunk.t), 0);
+    }));
+    const adjusted = max + Math.max(0, lines.length - 1) * 4;
+    if (adjusted <= 2) return "single";
+    if (adjusted <= 6) return "short";
+    if (adjusted <= 14) return "medium";
+    if (adjusted <= 26) return "long";
+    return "xlong";
+  }
+
+  function renderSlide(slide) {
+    const el = document.createElement("section");
+    el.className = "slide";
+    if (slide.emphasis) el.dataset.emphasis = "true";
+
+    if (slide.pre) {
+      const pre = document.createElement("pre");
+      pre.className = "pre";
+      pre.textContent = slide.pre;
+      el.appendChild(pre);
+      return el;
+    }
+
+    const lines = slide.lines || [];
+    el.dataset.len = tier(lines);
+    const box = document.createElement("div");
+    box.className = "lines";
+    lines.forEach(line => {
+      const row = document.createElement("div");
+      row.className = "line";
+      row.dataset.indent = String(line.indent || 0);
+      const chunks = line.chunks || [{ t: line.t || "" }];
+      row.innerHTML = chunks.map(chunk => {
+        const text = escapeHtml(chunk.t);
+        return chunk.hl ? `<span class="hl">${text}</span>` : text;
+      }).join("");
+      box.appendChild(row);
+    });
+    el.appendChild(box);
+    return el;
+  }
+
+  SLIDES.forEach(slide => stage.appendChild(renderSlide(slide)));
+  const slides = Array.from(stage.querySelectorAll(".slide"));
+
+  function show(nextIndex) {
+    if (!slides.length) return;
+    slides[idx]?.classList.remove("active");
+    idx = Math.max(0, Math.min(slides.length - 1, nextIndex));
+    slides[idx].classList.add("active");
+    pager.textContent = `${String(idx + 1).padStart(2, "0")} / ${String(slides.length).padStart(2, "0")}`;
+    firstGuide.classList.toggle("hide", idx !== 0);
+  }
+
+  function toggleFullscreen() {
+    if (document.fullscreenElement) document.exitFullscreen();
+    else document.documentElement.requestFullscreen?.();
+  }
+
+  document.addEventListener("keydown", event => {
+    if (["ArrowRight", " ", "Enter", "j", "PageDown"].includes(event.key)) {
+      event.preventDefault();
+      show(idx + 1);
+    } else if (["ArrowLeft", "k", "PageUp"].includes(event.key)) {
+      event.preventDefault();
+      show(idx - 1);
+    } else if (event.key === "Home") {
+      event.preventDefault();
+      show(0);
+    } else if (event.key === "End") {
+      event.preventDefault();
+      show(slides.length - 1);
+    } else if (event.key === "f" || event.key === "F") {
+      event.preventDefault();
+      toggleFullscreen();
+    }
+  });
+
+  document.addEventListener("click", event => {
+    if (event.clientX > window.innerWidth / 2) show(idx + 1);
+    else show(idx - 1);
+  });
+
+  show(0);
+</script>
+</body>
+</html>
