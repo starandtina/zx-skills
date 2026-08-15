@@ -8,7 +8,7 @@ async function main() {
   const outputPath = args[1];
   const width = parseInt(args[2]) || 1200;
   const height = parseInt(args[3]) || 1600;
-  const fullpage = args[4] === 'fullpage';
+  const fullpage = args[4] === 'fullpage' || args[4] === 'true';
 
   if (!htmlPath || !outputPath) {
     console.error('Usage: node capture.js <html> <png> [width] [height] [fullpage]');
@@ -29,7 +29,24 @@ async function main() {
 
   const fileUrl = 'file://' + path.resolve(htmlPath);
   await page.goto(fileUrl, { waitUntil: 'networkidle' });
-  await page.waitForTimeout(500);
+  await page.evaluate(async () => {
+    if (document.fonts && document.fonts.ready) {
+      await document.fonts.ready;
+    }
+
+    await Promise.all(
+      Array.from(document.images)
+        .filter((img) => !img.complete)
+        .map(
+          (img) =>
+            new Promise((resolve, reject) => {
+              img.addEventListener('load', resolve, { once: true });
+              img.addEventListener('error', reject, { once: true });
+            })
+        )
+    );
+  });
+  await page.waitForTimeout(300);
 
   if (fullpage) {
     const bodyHeight = await page.evaluate(() => document.body.scrollHeight);
@@ -56,13 +73,3 @@ main().catch((err) => {
   console.error(err.message);
   process.exit(1);
 });
-
-// Main
-const args = process.argv.slice(2);
-if (args.length < 4) {
-  console.log('Usage: node capture.js <html_path> <png_path> <width> <height> [fullpage]');
-  process.exit(1);
-}
-
-const [htmlPath, pngPath, width, height, fullPage] = args;
-capture(htmlPath, pngPath, width, height, fullPage);

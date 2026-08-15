@@ -1,8 +1,8 @@
 ---
 name: zx-present
-description: 演讲铸造器（Outline-Faithful）。基于 org-mode/Markdown outline 层级 1:1 视觉化呈现：色块大字、ultra-bold 错位，原文不动只做美化。支持 black/red/yellow 主题和 --cyber 终端风格。Use when user says '讲这个', 'present', '做成演讲', '呈现一下', '铸成演示', '做个 slides', '标语流', '宣言体', 'slogan', 'manifesto', '按 outline 美化'. 输出单文件 HTML 到 ~/Downloads/.
+description: 演讲铸造器（Outline-Faithful）。把 org-mode/Markdown outline 1:1 铸成单文件离线 HTML；支持 black/red/yellow、hacker/hacker-dark、表格、ASCII、LaTeX、自适应与翻页笔。Use when user says '讲这个', 'present', '做成演讲', '呈现一下', '铸成演示', '做个 slides', '标语流', '宣言体', 'slogan', 'manifesto', '按 outline 美化'. NOT FOR 内容提炼、改写或企业 PPT。输出到 ~/Downloads/.
 user_invocable: true
-version: '3.0.0'
+version: '3.1.0'
 ---
 
 # zx-present: 演讲铸造器
@@ -42,7 +42,8 @@ version: '3.0.0'
 | `-r` / `--theme=red` | 红色主题，适合分享、宣言、keynote |
 | `-b` / `--theme=black` | 黑色主题，适合沉思、论证、笔记 |
 | `-y` / `--theme=yellow` | 黄色主题，适合反讽、警觉、批判 |
-| `--cyber` | 黑底绿字 cyber-hacker 风 |
+| `--hacker` | 浅色 hacker 终端风 |
+| `--hacker-dark` / `--cyber` | 黑底绿字 hacker 终端风 |
 
 优先级：显式参数 > `#+filetags:` 推断 > 默认 black。
 
@@ -53,6 +54,8 @@ version: '3.0.0'
 | `:share:` `:talk:` `:manifesto:` `:keynote:` | red | 宣言、号召 |
 | `:essay:` `:think:` `:learn:` `:note:` | black | 沉思、论证 |
 | `:critique:` `:warn:` `:rant:` | yellow | 反讽、警觉 |
+| `:hacker:` `:terminal:` | hacker | 终端、工程演示 |
+| `:cyber:` `:hacker-dark:` | hacker-dark | 暗色终端 |
 | 都没有 | black | 默认沉思调 |
 
 ## Org/Markdown -> 页面映射
@@ -77,6 +80,7 @@ version: '3.0.0'
 | 引用 `> ...` | theme 页，indent 1 |
 | 分隔符 `-----` | emphasis 休止页 |
 | `#+begin_example` 或 fenced code | pre 页，monospace 渲染 |
+| LaTeX 公式块 / 行内公式 | pre 或 theme 页，原样保留，不改写公式 |
 
 ## 分页规则
 
@@ -119,6 +123,7 @@ font-weight: 900
 - 大字撑屏
 - 行内允许高亮，但 emphasis 页不做行内高亮
 - 页脚保留页码和 subtitle，小而冷静
+- ASCII 图和公式优先可读，不追求超大字；一页塞不下就分页
 
 ## JSON Schema
 
@@ -126,7 +131,7 @@ font-weight: 900
 
 ```jsonc
 {
-  "theme": "black|red|yellow|cyber",
+  "theme": "black|red|yellow|hacker|hacker-dark|cyber",
   "title": "演讲标题",
   "subtitle": "副标题或日期",
   "slides": [
@@ -157,7 +162,7 @@ font-weight: 900
 ## 执行
 
 1. 获取内容：文件路径 -> 读取；粘贴 -> 直接用；URL -> 获取正文
-2. 解析 outline：识别标题、列表、表格、强调、代码块、example 块
+2. 解析 outline：识别标题、列表、表格、强调、代码块、example 块、ASCII 图和 LaTeX
 3. 推断 theme
 4. 按映射规则生成 slides 数组
 5. 读取 `assets/slogan_template.html`
@@ -179,3 +184,4 @@ font-weight: 900
 - 不用过渡动画，硬切
 - 不混用多个 theme
 - 不擅自加 emphasis，只有一级标题、首末页、`-----` 是 emphasis
+- 不把公式翻译成自然语言替代；公式页必须保留原式

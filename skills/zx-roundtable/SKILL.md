@@ -4,6 +4,8 @@ description: >-
   Structured roundtable discussion framework with a truth-seeking moderator who invites representative figures for
   dialectical debate on any topic. Use when user says "圆桌讨论", "圆桌", "roundtable", "辩论", or wants to explore a
   topic through multi-perspective structured debate.
+user_invocable: true
+version: '1.0.0'
 ---
 
 ## Usage
@@ -22,7 +24,7 @@ Assistant: [Launches roundtable discussion on free will]
 
 为了执行本项技能，请严格按照以下步骤操作：
 
-1. **读取参考资料** 读取 `~/.claude/skills/zx-roundtable/references/original-prompt.org` 了解原始框架设计意图。
+1. **读取参考资料** 读取 `references/original-prompt.org` 了解原始框架设计意图。
 
 2. **解析议题** 从用户输入中提取核心议题。如果用户只说"圆桌讨论"未给议题，询问议题。
 

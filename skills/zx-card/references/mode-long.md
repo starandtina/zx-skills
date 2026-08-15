@@ -42,7 +42,7 @@
 ### 5. 截图
 
 ```bash
-node ~/.claude/skills/zx-card/assets/capture.js <html_path> <png_path> 1080 <height> true
+node assets/capture.js <html_path> <png_path> 1080 <height> fullpage
 ```
 
 `true` 表示 fullpage，自动计算高度。

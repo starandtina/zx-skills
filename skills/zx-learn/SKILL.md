@@ -5,6 +5,8 @@ description:
   phenomenology, linguistics, formalization, existentialism, aesthetics, meta-philosophy) and compresses insights into
   an epiphany. Use when user asks to explain, dissect, or deeply understand a concept, term, or idea. Triggers on
   '解剖概念', '概念解剖', 'explain concept', 'learn concept', '/zx-learn'. Produces org-mode output.
+user_invocable: true
+version: '1.0.0'
 ---
 
 ## Usage

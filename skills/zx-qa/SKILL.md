@@ -2,7 +2,7 @@
 name: zx-qa
 description: 信息提问机。给一篇文章、论文或书，把核心观点抽成有方向的 Q-A 链。Question 切要害，不做教科书式定义；Answer 简洁清楚，有结论、形式化、论证步骤和边界。Use when user says '问答', 'Q&A', 'QA', '提问', '抽取问题', '/zx-qa', or shares an article/paper/book and asks for Q-A extraction. Not for FAQ generation, glossary creation, or comprehension quizzes.
 user_invocable: true
-version: '1.0.0'
+version: '1.1.0'
 ---
 
 # zx-qa: 问答提取
@@ -44,6 +44,15 @@ version: '1.0.0'
 - 书名/论文名 -> 先搜索或要求用户提供文本
 
 拿不到完整正文时直接说明，不补脑。
+
+## 必读
+
+执行前先读：
+
+1. `references/question-design.md`
+2. `workflows/extract.md`
+
+本文件规定目标与红线；reference 规定问题怎么磨尖，workflow 规定抽取顺序。
 
 ## 执行
 

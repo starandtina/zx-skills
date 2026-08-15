@@ -28,7 +28,7 @@
 
 ```bash
 # 对每张卡片
-node ~/.claude/skills/zx-card/assets/capture.js <html_path> <png_path> 1080 1440 false
+node assets/capture.js <html_path> <png_path> 1080 1440
 ```
 
 ### 5. 交付

@@ -5,6 +5,8 @@ description: >-
   unconscious patterns, resistance). Guides users through dialogue to "see" the real structure of their relationship
   issues. Use when user says "关系分析", "分析关系", "relationship", "人际关系", or describes a specific relationship
   problem they want to understand.
+user_invocable: true
+version: '1.0.0'
 ---
 
 ## Usage

@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>zx-card big</title>
+  <style>
+    :root {
+      --bg-dark: #17130f;
+      --paper: #f2ead6;
+      --ink: #1f1912;
+      --muted: #6b5a43;
+      --shu: #b3261e;
+      --font-size: {{FONT_SIZE}}px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 1080px;
+      height: 1440px;
+      margin: 0;
+      overflow: hidden;
+      background: var(--bg-dark);
+    }
+
+    body {
+      font-family: "Noto Serif SC", "Songti SC", "STSong", "SimSun", serif;
+      color: var(--ink);
+    }
+
+    .frame {
+      position: relative;
+      width: 1080px;
+      height: 1440px;
+      padding: 22px;
+      background:
+        radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.12), transparent 40%),
+        linear-gradient(135deg, #201912, #100d0a);
+    }
+
+    .paper {
+      position: relative;
+      width: 1036px;
+      height: 1396px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 25% 20%, rgba(184, 154, 92, 0.22), transparent 28%),
+        radial-gradient(circle at 70% 75%, rgba(121, 92, 54, 0.16), transparent 34%),
+        radial-gradient(circle at 55% 35%, rgba(255, 255, 255, 0.38), transparent 35%),
+        var(--paper);
+      box-shadow:
+        0 34px 80px rgba(0, 0, 0, 0.55),
+        inset 0 0 0 1px rgba(68, 48, 25, 0.22),
+        inset 0 0 110px rgba(91, 67, 38, 0.18);
+    }
+
+    .paper::before {
+      position: absolute;
+      inset: 0;
+      content: "";
+      opacity: 0.26;
+      background-image:
+        repeating-linear-gradient(0deg, rgba(80, 58, 31, 0.05) 0 1px, transparent 1px 4px),
+        repeating-linear-gradient(90deg, rgba(80, 58, 31, 0.035) 0 1px, transparent 1px 5px);
+      mix-blend-mode: multiply;
+      pointer-events: none;
+    }
+
+    .main-text {
+      position: absolute;
+      left: 88px;
+      right: 88px;
+      top: 50%;
+      transform: translateY(-52%);
+      font-size: var(--font-size);
+      font-weight: 900;
+      line-height: 1.14;
+      letter-spacing: 0;
+      text-align: left;
+      color: var(--ink);
+      filter: url("#weathered");
+      text-shadow:
+        1px 0 0 rgba(0, 0, 0, 0.2),
+        0 1px 0 rgba(255, 255, 255, 0.24),
+        0 4px 10px rgba(66, 48, 27, 0.22);
+    }
+
+    .shu {
+      color: var(--shu);
+    }
+
+    .sub {
+      display: inline-block;
+      margin-top: 28px;
+      font-size: 42%;
+      font-weight: 700;
+      color: var(--muted);
+      filter: none;
+    }
+
+    .signature {
+      position: absolute;
+      left: 72px;
+      bottom: 72px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--muted);
+      font: 700 25px/1 "Helvetica Neue", Arial, sans-serif;
+      letter-spacing: 0;
+    }
+
+    .signature img {
+      width: 34px;
+      height: 34px;
+      object-fit: contain;
+      opacity: 0.82;
+    }
+
+    .source-line {
+      position: absolute;
+      right: 72px;
+      bottom: 75px;
+      max-width: 520px;
+      color: var(--muted);
+      font: 500 22px/1.35 "Noto Serif SC", "Songti SC", serif;
+      text-align: right;
+    }
+
+    {{CUSTOM_CSS}}
+  </style>
+</head>
+<body>
+  <svg width="0" height="0" aria-hidden="true" focusable="false">
+    <filter id="weathered">
+      <feTurbulence type="fractalNoise" baseFrequency="0.82" numOctaves="2" seed="11" result="noise" />
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.8" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+  </svg>
+  <main class="frame">
+    <section class="paper">
+      <div class="main-text">{{MAIN_TEXT}}</div>
+      <div class="signature">
+        <img src="{{LOGO}}" alt="zx" />
+        <span>zx</span>
+      </div>
+      {{SOURCE_LINE}}
+    </section>
+  </main>
+</body>
+</html>
